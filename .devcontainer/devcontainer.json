@@ -1,0 +1,47 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/go
+{
+	"name": "Go",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "golang:1.21.3-bullseye",
+	"features": {
+		"ghcr.io/devcontainers/features/aws-cli:1": {},
+		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+			"omzPlugins" : "https://github.com/zsh-users/zsh-autosuggestions.git https://github.com/marlonrichert/zsh-autocomplete.git https://github.com/zsh-users/zsh-syntax-highlighting.git https://github.com/zdharma-continuum/fast-syntax-highlighting.git",
+			"plugins": "git zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete"
+		},
+		"ghcr.io/itsmechlark/features/act:1": {},
+		"ghcr.io/devcontainers-contrib/features/neovim-apt-get:1": {}
+	},
+	"postAttachCommand": "apt update",
+	"runArgs": ["--init", "--privileged", "--network=go-study"],
+	"mounts": [
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+		"source=/Users/josh/.ssh,target=/root/.ssh,type=bind"
+
+	  ],
+	  "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "terminal.integrated.profiles.linux": { "zsh": { "path": "/bin/zsh" } }
+            }
+        }
+    },
+	
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "go version",
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "root"
+}
