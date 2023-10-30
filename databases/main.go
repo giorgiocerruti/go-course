@@ -4,12 +4,18 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/go-sql-driver/mysql"
 )
 
-mcr.microsoft.com/devcontainers/go:1-1.21.3-bullseye
 var db *sql.DB
+
+type Actor struct {
+	Id        int32
+	Firstname string
+	Lastname  string
+}
 
 func main() {
 
@@ -43,17 +49,17 @@ func main() {
 	}
 
 	fmt.Printf("Actor ID: %v\n", actorId)
-}
 
-func addActor(firstname, lastname string) (int64, error) {
-	result, err := db.Exec("INSERT INTO actor (firstname, lastname) VALUES (?, ?)", firstname, lastname)
+	fmt.Println(strings.Repeat("-", 20))
+
+	fmt.Printf("Retrive actor with ID: %d\n", actorId)
+
+	actors, err := getActor(int32(actorId))
 	if err != nil {
-		return 0, fmt.Errorf("addActor: %v", err)
-	}
-	id, err := result.LastInsertId()
-	if err != nil {
-		return 0, fmt.Errorf("addActor Insert: %v", err)
+		log.Fatal(err)
 	}
 
-	return id, nil
+	for _, actor := range actors {
+		fmt.Printf("Actor found: %v\n", actor)
+	}
 }
